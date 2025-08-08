@@ -1,36 +1,284 @@
-This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://nextjs.org/docs/app/api-reference/cli/create-next-app).
+# Gesti-Frella 🚀
 
-## Getting Started
+Sistema web per la gestione di progetti freelancer, dall'iniziale contatto con il cliente fino alla consegna finale.
 
-First, run the development server:
+## 🎯 Funzionalità
 
-```bash
-npm run dev
-# or
-yarn dev
-# or
-pnpm dev
-# or
-bun dev
+### Gestione Progetti
+- ✅ Creare, visualizzare, modificare ed eliminare progetti
+- ✅ Collegamento progetti-clienti
+- ✅ Stati progetto: "In attesa di briefing", "In corso", "Pausa", "Completato"
+- ✅ Note interne per progetto
+- 🔄 Upload file (Firebase Storage) - *In sviluppo*
+
+### Formulario Pubblico di Briefing
+- ✅ Link unico per ogni progetto
+- ✅ Formulario completo in italiano con 12 sezioni
+- ✅ Salvataggio automatico risposte in Firestore
+- ✅ Validazione campi e UX ottimizzata
+
+### Gestione Clienti
+- ✅ CRUD completo clienti
+- ✅ Validazione email e codice fiscale/P.IVA
+- ✅ Associazione progetti-clienti
+- ✅ Ricerca e filtri
+
+### Dashboard Amministratore
+- ✅ Autenticazione Firebase (solo admin)
+- ✅ Statistiche progetti per stato
+- ✅ Lista progetti recenti
+- ✅ Filtri e ricerca avanzata
+
+### Email Automatiche
+- 🔄 Invio automatico via Firebase Functions - *In sviluppo*
+- 🔄 Template personalizzabili - *In sviluppo*
+- 🔄 Log email - *In sviluppo*
+
+## 🛠 Tecnologie
+
+- **Frontend**: Next.js 14 + TypeScript
+- **Styling**: Tailwind CSS
+- **Forms**: React Hook Form + Yup
+- **Backend**: Firebase (Firestore, Auth, Storage, Functions)
+- **Icons**: Lucide React
+- **Deployment**: Vercel (frontend) + Firebase (backend)
+
+## 📁 Struttura Firestore
+
+```
+collections/
+├── projects/
+│   ├── clientId: string
+│   ├── nome: string
+│   ├── descrizione?: string
+│   ├── status: 'In attesa di briefing' | 'In corso' | 'Pausa' | 'Completato'
+│   ├── briefingCompleted: boolean
+│   ├── briefingURL: string
+│   ├── internalNotes?: string
+│   ├── createdAt: Date
+│   └── updatedAt?: Date
+│
+├── clients/
+│   ├── nomeCompleto: string
+│   ├── nomeAzienda?: string
+│   ├── codiceFiscaleOrPIVA: string
+│   ├── email: string
+│   ├── telefono: string
+│   ├── ruolo?: string
+│   ├── createdAt: Date
+│   └── updatedAt?: Date
+│
+├── briefings/
+│   ├── projectId: string
+│   ├── clientId: string
+│   ├── [tutti i campi del formulario]
+│   ├── createdAt: Date
+│   └── updatedAt?: Date
+│
+└── emails/ (futuro)
+    ├── templates/
+    └── logs/
 ```
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+## 🚀 Setup e Installazione
 
-You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.
+### 1. Clone del Repository
+```bash
+git clone <repository-url>
+cd gesti-frella
+```
 
-This project uses [`next/font`](https://nextjs.org/docs/app/building-your-application/optimizing/fonts) to automatically optimize and load [Geist](https://vercel.com/font), a new font family for Vercel.
+### 2. Installazione Dipendenze
+```bash
+npm install
+```
 
-## Learn More
+### 3. Configuração Supabase
 
-To learn more about Next.js, take a look at the following resources:
+1. Cria um novo projeto em [Supabase](https://supabase.com/)
+2. Vai em Authentication > Settings e configura Email/Password
+3. Cria as tabelas no banco de dados (veja estrutura abaixo)
+4. Obtém as credenciais da API
 
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
+### 4. Configuração do Ambiente
 
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js) - your feedback and contributions are welcome!
+Renomeia `.env.local` e insere suas credenciais do Supabase:
 
-## Deploy on Vercel
+```env
+# Supabase Configuration
+NEXT_PUBLIC_SUPABASE_URL=your_supabase_url
+NEXT_PUBLIC_SUPABASE_ANON_KEY=your_supabase_anon_key
 
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
+# Admin Email
+NEXT_PUBLIC_ADMIN_EMAIL=your_admin_email@example.com
 
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/app/building-your-application/deploying) for more details.
+# Application URL
+NEXT_PUBLIC_APP_URL=http://localhost:3000
+```
+
+### 5. Estrutura do Banco de Dados Supabase
+
+Cria as seguintes tabelas no seu projeto Supabase:
+
+**Tabela: projects**
+```sql
+CREATE TABLE projects (
+  id UUID DEFAULT gen_random_uuid() PRIMARY KEY,
+  nome_progetto TEXT NOT NULL,
+  cliente_id UUID REFERENCES clients(id),
+  tipo_progetto TEXT NOT NULL,
+  descrizione TEXT,
+  stato TEXT DEFAULT 'in_corso',
+  data_inizio DATE,
+  data_fine_prevista DATE,
+  budget DECIMAL,
+  briefing_url TEXT,
+  note_interne TEXT,
+  files TEXT[],
+  created_at TIMESTAMP WITH TIME ZONE DEFAULT NOW(),
+  updated_at TIMESTAMP WITH TIME ZONE DEFAULT NOW()
+);
+```
+
+**Tabela: clients**
+```sql
+CREATE TABLE clients (
+  id UUID DEFAULT gen_random_uuid() PRIMARY KEY,
+  nome_completo TEXT NOT NULL,
+  nome_azienda TEXT,
+  codice_fiscale_or_piva TEXT UNIQUE,
+  email TEXT UNIQUE NOT NULL,
+  telefono TEXT,
+  ruolo TEXT,
+  created_at TIMESTAMP WITH TIME ZONE DEFAULT NOW(),
+  updated_at TIMESTAMP WITH TIME ZONE DEFAULT NOW()
+);
+```
+
+**Tabela: briefings**
+```sql
+CREATE TABLE briefings (
+  id UUID DEFAULT gen_random_uuid() PRIMARY KEY,
+  nome_completo TEXT NOT NULL,
+  email TEXT NOT NULL,
+  telefono TEXT,
+  nome_azienda TEXT,
+  tipo_progetto TEXT NOT NULL,
+  descrizione_progetto TEXT NOT NULL,
+  obiettivi TEXT,
+  target_audience TEXT,
+  budget TEXT,
+  timeline TEXT,
+  riferimenti TEXT,
+  note_aggiuntive TEXT,
+  status TEXT DEFAULT 'pending',
+  created_at TIMESTAMP WITH TIME ZONE DEFAULT NOW(),
+  updated_at TIMESTAMP WITH TIME ZONE DEFAULT NOW()
+);
+```
+
+### 6. Avvio Sviluppo
+```bash
+npm run dev
+```
+
+L'applicazione sarà disponibile su `http://localhost:3000`
+
+## 📱 Utilizzo
+
+### Accesso Amministratore
+1. Vai su `/login`
+2. Accedi con le credenziali Firebase
+3. Accedi al dashboard su `/dashboard`
+
+### Creazione Progetto
+1. Dashboard > Progetti > Nuovo Progetto
+2. Compila i dati del progetto
+3. Seleziona cliente esistente o creane uno nuovo
+4. Il sistema genera automaticamente il link del briefing
+
+### Briefing Cliente
+1. Condividi il link del briefing con il cliente
+2. Il cliente compila il formulario pubblico
+3. Le risposte vengono salvate automaticamente
+4. Il progetto viene marcato come "briefing completato"
+
+## 🎨 Design System
+
+Il design è ispirato ai colori e al layout moderno, con:
+- **Colori primari**: Blu e verde
+- **Font**: Inter
+- **Componenti**: Card, Button, Input riutilizzabili
+- **Responsive**: Mobile-first design
+- **Icone**: Lucide React
+
+## 🔧 Struttura Progetto
+
+```
+src/
+├── app/                    # App Router (Next.js 14)
+│   ├── dashboard/          # Dashboard protetto
+│   ├── briefing/[id]/      # Formulario pubblico
+│   ├── login/              # Pagina login
+│   └── globals.css         # Stili globali
+│
+├── components/             # Componenti riutilizzabili
+│   ├── ui/                 # Componenti UI base
+│   ├── DashboardLayout.tsx # Layout dashboard
+│   └── ProtectedRoute.tsx  # Protezione route
+│
+├── hooks/                  # Custom hooks
+│   └── useAuth.tsx         # Hook autenticazione
+│
+├── lib/                    # Utilities e configurazioni
+│   ├── firebase.ts         # Config Firebase
+│   └── utils.ts            # Funzioni utility
+│
+├── services/               # Servizi API
+│   ├── projectService.ts   # CRUD progetti
+│   ├── clientService.ts    # CRUD clienti
+│   └── briefingService.ts  # CRUD briefing
+│
+└── types/                  # TypeScript types
+    └── index.ts            # Definizioni tipi
+```
+
+## 🚀 Deploy
+
+### Frontend (Vercel)
+1. Connetti repository a Vercel
+2. Configura variabili ambiente
+3. Deploy automatico
+
+### Backend (Firebase)
+1. `npm install -g firebase-tools`
+2. `firebase login`
+3. `firebase init`
+4. `firebase deploy`
+
+## 🔮 Roadmap
+
+- [ ] Sistema email automatiche (Firebase Functions)
+- [ ] Upload e gestione file (Firebase Storage)
+- [ ] Template email personalizzabili
+- [ ] Notifiche in-app
+- [ ] Export dati (PDF, Excel)
+- [ ] Calendario e scadenze
+- [ ] Sistema fatturazione
+- [ ] App mobile (React Native)
+
+## 🤝 Contributi
+
+Il progetto è in sviluppo attivo. Per contribuire:
+1. Fork del repository
+2. Crea feature branch
+3. Commit delle modifiche
+4. Push e Pull Request
+
+## 📄 Licenza
+
+MIT License - vedi file LICENSE per dettagli.
+
+---
+
+**Gesti-Frella** - Sistema di gestione progetti freelancer 🇮🇹
