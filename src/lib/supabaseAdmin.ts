@@ -11,7 +11,7 @@ const supabaseAdmin = supabaseUrl && serviceRoleKey
         persistSession: false
       }
     })
-  : createClient('https://dummy.supabase.co', 'dummy-key', {
+  : createClient('https://xyzcompany.supabase.co', 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6Inh5emNvbXBhbnkiLCJyb2xlIjoic2VydmljZV9yb2xlIiwiaWF0IjoxNjQwOTk1MjAwLCJleHAiOjE5NTY1NzEyMDB9.dummy', {
       auth: {
         persistSession: false
       }
