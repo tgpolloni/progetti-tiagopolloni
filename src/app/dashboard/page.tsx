@@ -32,10 +32,24 @@ export default function DashboardPage() {
   const loadData = async () => {
     try {
       setLoading(true);
-      const [projectsData, clientsData] = await Promise.all([
-        projectService.getAllProjects(),
-        clientService.getAllClients()
-      ]);
+      
+      // Carregamento com fallback para arrays vazios em caso de erro
+      let projectsData: Project[] = [];
+      let clientsData: Client[] = [];
+      
+      try {
+        projectsData = await projectService.getAllProjects();
+      } catch (error) {
+        console.warn('Erro ao carregar projetos:', error);
+        projectsData = [];
+      }
+      
+      try {
+        clientsData = await clientService.getAllClients();
+      } catch (error) {
+        console.warn('Erro ao carregar clientes:', error);
+        clientsData = [];
+      }
       
       setProjects(projectsData);
       setClients(clientsData);
@@ -52,6 +66,16 @@ export default function DashboardPage() {
       setStats(stats);
     } catch (error) {
       console.error('Errore nel caricamento dei dati:', error);
+      // Garantir que os estados sejam definidos mesmo em caso de erro
+      setProjects([]);
+      setClients([]);
+      setStats({
+        total: 0,
+        waiting: 0,
+        inProgress: 0,
+        paused: 0,
+        completed: 0
+      });
     } finally {
       setLoading(false);
     }

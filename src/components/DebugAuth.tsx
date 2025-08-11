@@ -103,7 +103,7 @@ export function DebugAuth() {
   const createTestUser = async () => {
     try {
       const { data, error } = await supabase.auth.signUp({
-        email: 'test@example.com',
+        email: 'tgpolloni@gmail.com',
         password: 'test123456'
       });
       

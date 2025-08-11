@@ -40,11 +40,11 @@ export default function LoginPage() {
 
     try {
       await signIn(data.email, data.password);
-      router.push('/dashboard');
+      // Usar window.location.href para evitar ERR_ABORTED do prefetching
+      window.location.href = '/dashboard';
     } catch (error: unknown) {
       console.error('Errore di login:', error);
       setError('Credenziali non valide. Riprova.');
-    } finally {
       setIsLoading(false);
     }
   };
