@@ -136,7 +136,7 @@ export default function PublicBriefingPage() {
           telefono: data.telefono,
           ruolo: data.ruolo
         });
-        clientId = newClient.id;
+        clientId = newClient;
       }
 
       // Create briefing
