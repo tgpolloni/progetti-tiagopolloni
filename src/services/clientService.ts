@@ -35,7 +35,7 @@ export const clientService = {
         }
         throw error;
       }
-      return data.id;
+      return (data as { id: string }).id;
     } catch (error) {
       console.error('Erro ao criar cliente:', error);
       throw error;
@@ -53,15 +53,15 @@ export const clientService = {
       if (error) throw error;
       
       return data.map(client => ({
-        id: client.id,
-        nomeCompleto: client.nome_completo,
-        nomeAzienda: client.nome_azienda,
-        codiceFiscaleOrPIVA: client.codice_fiscale_or_piva,
-        email: client.email,
-        telefono: client.telefono,
-        ruolo: client.ruolo,
-        createdAt: new Date(client.created_at),
-        updatedAt: client.updated_at ? new Date(client.updated_at) : undefined
+        id: client.id as string,
+        nomeCompleto: client.nome_completo as string,
+        nomeAzienda: client.nome_azienda as string,
+        codiceFiscaleOrPIVA: client.codice_fiscale_or_piva as string,
+        email: client.email as string,
+        telefono: client.telefono as string,
+        ruolo: client.ruolo as string,
+        createdAt: new Date(client.created_at as string),
+        updatedAt: client.updated_at ? new Date(client.updated_at as string) : undefined
       })) as Client[];
     } catch (error) {
       console.error('Erro ao buscar clientes:', error);
@@ -84,15 +84,15 @@ export const clientService = {
       }
       
       return {
-        id: data.id,
-        nomeCompleto: data.nome_completo,
-        nomeAzienda: data.nome_azienda,
-        codiceFiscaleOrPIVA: data.codice_fiscale_or_piva,
-        email: data.email,
-        telefono: data.telefono,
-        ruolo: data.ruolo,
-        createdAt: new Date(data.created_at),
-        updatedAt: data.updated_at ? new Date(data.updated_at) : undefined
+        id: data.id as string,
+        nomeCompleto: data.nome_completo as string,
+        nomeAzienda: data.nome_azienda as string,
+        codiceFiscaleOrPIVA: data.codice_fiscale_or_piva as string,
+        email: data.email as string,
+        telefono: data.telefono as string,
+        ruolo: data.ruolo as string,
+        createdAt: new Date(data.created_at as string),
+        updatedAt: data.updated_at ? new Date(data.updated_at as string) : undefined
       } as Client;
     } catch (error) {
       console.error('Erro ao buscar cliente:', error);
@@ -114,15 +114,15 @@ export const clientService = {
       if (!data) return null;
 
       return {
-        id: data.id,
-        nomeCompleto: data.nome_completo,
-        nomeAzienda: data.nome_azienda,
-        codiceFiscaleOrPIVA: data.codice_fiscale_or_piva,
-        email: data.email,
-        telefono: data.telefono,
-        ruolo: data.ruolo,
-        createdAt: new Date(data.created_at),
-        updatedAt: data.updated_at ? new Date(data.updated_at) : undefined
+        id: data.id as string,
+        nomeCompleto: data.nome_completo as string,
+        nomeAzienda: data.nome_azienda as string,
+        codiceFiscaleOrPIVA: data.codice_fiscale_or_piva as string,
+        email: data.email as string,
+        telefono: data.telefono as string,
+        ruolo: data.ruolo as string,
+        createdAt: new Date(data.created_at as string),
+        updatedAt: data.updated_at ? new Date(data.updated_at as string) : undefined
       } as Client;
     } catch (error) {
       console.error('Erro ao buscar cliente por email:', error);
@@ -143,15 +143,15 @@ export const clientService = {
       if (!data) return null;
 
       return {
-        id: data.id,
-        nomeCompleto: data.nome_completo,
-        nomeAzienda: data.nome_azienda,
-        codiceFiscaleOrPIVA: data.codice_fiscale_or_piva,
-        email: data.email,
-        telefono: data.telefono,
-        ruolo: data.ruolo,
-        createdAt: new Date(data.created_at),
-        updatedAt: data.updated_at ? new Date(data.updated_at) : undefined
+        id: data.id as string,
+        nomeCompleto: data.nome_completo as string,
+        nomeAzienda: data.nome_azienda as string,
+        codiceFiscaleOrPIVA: data.codice_fiscale_or_piva as string,
+        email: data.email as string,
+        telefono: data.telefono as string,
+        ruolo: data.ruolo as string,
+        createdAt: new Date(data.created_at as string),
+        updatedAt: data.updated_at ? new Date(data.updated_at as string) : undefined
       } as Client;
     } catch (error) {
       console.error('Erro ao buscar cliente por codice fiscale/P.IVA:', error);
@@ -212,15 +212,15 @@ export const clientService = {
       if (error) throw error;
       
       return data.map(client => ({
-        id: client.id,
-        nomeCompleto: client.nome_completo,
-        nomeAzienda: client.nome_azienda,
-        codiceFiscaleOrPIVA: client.codice_fiscale_or_piva,
-        email: client.email,
-        telefono: client.telefono,
-        ruolo: client.ruolo,
-        createdAt: new Date(client.created_at),
-        updatedAt: client.updated_at ? new Date(client.updated_at) : undefined
+        id: client.id as string,
+        nomeCompleto: client.nome_completo as string,
+        nomeAzienda: client.nome_azienda as string,
+        codiceFiscaleOrPIVA: client.codice_fiscale_or_piva as string,
+        email: client.email as string,
+        telefono: client.telefono as string,
+        ruolo: client.ruolo as string,
+        createdAt: new Date(client.created_at as string),
+        updatedAt: client.updated_at ? new Date(client.updated_at as string) : undefined
       })) as Client[];
     } catch (error) {
       console.error('Erro na busca de clientes:', error);

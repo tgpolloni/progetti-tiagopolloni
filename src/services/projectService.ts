@@ -26,15 +26,15 @@ export const projectService = {
       if (error) throw error;
       
       // Atualizar com a URL do briefing
-      const briefingURL = generateBriefingURL(data.id);
+      const briefingURL = generateBriefingURL(data.id as string);
       const { error: updateError } = await supabase
         .from('projects')
         .update({ briefing_url: briefingURL })
-        .eq('id', data.id);
+        .eq('id', data.id as string);
       
       if (updateError) throw updateError;
       
-      return data.id;
+      return data.id as string;
     } catch (error) {
       console.error('Errore nella creazione del progetto:', error);
       throw error;
@@ -52,16 +52,16 @@ export const projectService = {
       if (error) throw error;
       
       return data.map(project => ({
-        id: project.id,
-        clientId: project.cliente_id,
-        nome: project.nome_progetto,
-        descrizione: project.descrizione,
-        status: project.stato,
-        briefingCompleted: project.briefing_completed,
-        briefingURL: project.briefing_url,
-        internalNotes: project.note_interne,
-        createdAt: new Date(project.created_at),
-        updatedAt: new Date(project.updated_at)
+        id: project.id as string,
+        clientId: project.cliente_id as string,
+        nome: project.nome_progetto as string,
+        descrizione: project.descrizione as string,
+        status: project.stato as string,
+        briefingCompleted: project.briefing_completed as boolean,
+        briefingURL: project.briefing_url as string,
+        internalNotes: project.note_interne as string,
+        createdAt: new Date(project.created_at as string),
+        updatedAt: new Date(project.updated_at as string)
       })) as Project[];
     } catch (error) {
       console.error('Errore nel recupero dei progetti:', error);
@@ -92,8 +92,8 @@ export const projectService = {
         briefingCompleted: data.briefing_completed,
         briefingURL: data.briefing_url,
         internalNotes: data.note_interne,
-        createdAt: new Date(data.created_at),
-        updatedAt: new Date(data.updated_at)
+        createdAt: new Date(data.created_at as string),
+        updatedAt: new Date(data.updated_at as string)
       } as Project;
     } catch (error) {
       console.error('Errore nel recupero del progetto:', error);
@@ -166,16 +166,16 @@ export const projectService = {
       if (error) throw error;
       
       return data.map(project => ({
-        id: project.id,
-        clientId: project.cliente_id,
-        nome: project.nome_progetto,
-        descrizione: project.descrizione,
-        status: project.stato,
-        briefingCompleted: project.briefing_completed,
-        briefingURL: project.briefing_url,
-        internalNotes: project.note_interne,
-        createdAt: new Date(project.created_at),
-        updatedAt: new Date(project.updated_at)
+        id: project.id as string,
+        clientId: project.cliente_id as string,
+        nome: project.nome_progetto as string,
+        descrizione: project.descrizione as string,
+        status: project.stato as string,
+        briefingCompleted: project.briefing_completed as boolean,
+        briefingURL: project.briefing_url as string,
+        internalNotes: project.note_interne as string,
+        createdAt: new Date(project.created_at as string),
+        updatedAt: new Date(project.updated_at as string)
       })) as Project[];
     } catch (error) {
       console.error('Errore nel recupero dei progetti per status:', error);
@@ -195,16 +195,16 @@ export const projectService = {
       if (error) throw error;
       
       return data.map(project => ({
-        id: project.id,
-        clientId: project.cliente_id,
-        nome: project.nome_progetto,
-        descrizione: project.descrizione,
-        status: project.stato,
-        briefingCompleted: project.briefing_completed,
-        briefingURL: project.briefing_url,
-        internalNotes: project.note_interne,
-        createdAt: new Date(project.created_at),
-        updatedAt: new Date(project.updated_at)
+        id: project.id as string,
+        clientId: project.cliente_id as string,
+        nome: project.nome_progetto as string,
+        descrizione: project.descrizione as string,
+        status: project.stato as string,
+        briefingCompleted: project.briefing_completed as boolean,
+        briefingURL: project.briefing_url as string,
+        internalNotes: project.note_interne as string,
+        createdAt: new Date(project.created_at as string),
+        updatedAt: new Date(project.updated_at as string)
       })) as Project[];
     } catch (error) {
       console.error('Errore nel recupero dei progetti per cliente:', error);
