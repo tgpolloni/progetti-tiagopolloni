@@ -6,14 +6,30 @@ import { useState } from 'react';
 import { Button } from '@/components/ui/Button';
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/Card';
 
+type TestResult = {
+  success: boolean;
+  data?: unknown;
+  error?: string;
+};
+
+type TestResults = {
+  timestamp: string;
+  user: {
+    id: string;
+    email: string | undefined;
+    role: string | undefined;
+  } | null;
+  tests: Record<string, TestResult>;
+};
+
 export function DebugAuth() {
   const { user, loading } = useAuth();
-  const [testResults, setTestResults] = useState<unknown>(null);
+  const [testResults, setTestResults] = useState<TestResults | null>(null);
   const [isTestingDB, setIsTestingDB] = useState(false);
 
   const testDatabaseConnection = async () => {
     setIsTestingDB(true);
-    const results: Record<string, any> = {
+    const results: TestResults = {
       timestamp: new Date().toISOString(),
       user: user ? {
         id: user.id,
