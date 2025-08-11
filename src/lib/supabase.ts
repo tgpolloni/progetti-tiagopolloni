@@ -6,17 +6,18 @@ const supabaseAnonKey = process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY || '';
 // Initialize Supabase client with proper environment handling
 let supabase: ReturnType<typeof createClient>;
 
-if (typeof window !== 'undefined') {
-  // Client-side: require valid credentials
-  if (!supabaseUrl || !supabaseAnonKey) {
-    throw new Error('Missing Supabase environment variables');
-  }
+// Check if we have valid credentials
+const hasValidCredentials = supabaseUrl && supabaseAnonKey && 
+  supabaseUrl !== '' && supabaseAnonKey !== '' &&
+  !supabaseUrl.includes('xyzcompany');
+
+if (hasValidCredentials) {
+  // Use real Supabase client with valid credentials
   supabase = createClient(supabaseUrl, supabaseAnonKey);
 } else {
-  // Server-side/build time: use dummy client if credentials not available
-  supabase = supabaseUrl && supabaseAnonKey
-    ? createClient(supabaseUrl, supabaseAnonKey)
-    : createClient('https://xyzcompany.supabase.co', 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6Inh5emNvbXBhbnkiLCJyb2xlIjoiYW5vbiIsImlhdCI6MTY0MDk5NTIwMCwiZXhwIjoxOTU2NTcxMjAwfQ.dummy');
+  // Create a dummy client that will fail gracefully
+  console.warn('Supabase credentials not configured. Authentication will not work.');
+  supabase = createClient('https://dummy.supabase.co', 'dummy-key');
 }
 
 export { supabase };
