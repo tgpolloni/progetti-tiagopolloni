@@ -9,7 +9,7 @@ import { projectService } from '@/services/projectService';
 import { briefingService } from '@/services/briefingService';
 import { clientService } from '@/services/clientService';
 import { Project, BriefingFormData } from '@/types';
-import { useForm } from 'react-hook-form';
+import { useForm, type Resolver } from 'react-hook-form';
 import { yupResolver } from '@hookform/resolvers/yup';
 import * as yup from 'yup';
 import { CheckCircle, FileText, Send } from 'lucide-react';
@@ -95,7 +95,7 @@ export default function PublicBriefingPage() {
     setValue,
     getValues
   } = useForm<BriefingFormData>({
-    resolver: yupResolver(schema),
+    resolver: yupResolver(schema) as Resolver<BriefingFormData>,
     defaultValues: {
       logoReady: false,
       haiDominio: false,
