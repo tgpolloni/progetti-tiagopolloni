@@ -8,12 +8,12 @@ import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/Card';
 
 export function DebugAuth() {
   const { user, loading } = useAuth();
-  const [testResults, setTestResults] = useState<any>(null);
+  const [testResults, setTestResults] = useState<unknown>(null);
   const [isTestingDB, setIsTestingDB] = useState(false);
 
   const testDatabaseConnection = async () => {
     setIsTestingDB(true);
-    const results: any = {
+    const results: Record<string, unknown> = {
       timestamp: new Date().toISOString(),
       user: user ? {
         id: user.id,
@@ -72,10 +72,11 @@ export function DebugAuth() {
         error: policiesError?.message
       };
 
-    } catch (error: any) {
+    } catch (error: unknown) {
+      const err = error as { message?: string };
       results.tests.generalError = {
         success: false,
-        error: error.message
+        error: err?.message
       };
     }
 
@@ -95,8 +96,9 @@ export function DebugAuth() {
       } else {
         alert('Utente di test creato con successo!');
       }
-    } catch (error: any) {
-      alert(`Errore: ${error.message}`);
+    } catch (error: unknown) {
+      const err = error as { message?: string };
+      alert(`Errore: ${err?.message || 'Errore sconosciuto'}`);
     }
   };
 

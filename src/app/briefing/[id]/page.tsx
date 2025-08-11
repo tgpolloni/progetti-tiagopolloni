@@ -377,12 +377,12 @@ export default function BriefingPage() {
                 <div className="space-y-4">
                   <div>
                     <label className="block text-sm font-medium text-gray-700 mb-1">
-                      Qual è l'obiettivo principale del progetto? *
+                      Qual è l&#39;obiettivo principale del progetto? *
                     </label>
                     <textarea
                       rows={3}
                       className="w-full px-3 py-2 border border-input rounded-md focus:outline-none focus:ring-2 focus:ring-ring"
-                      placeholder="Descrivi l'obiettivo principale..."
+                      placeholder="Descrivi l&#39;obiettivo principale..."
                       {...register('obiettivoProgetto')}
                     />
                     {errors.obiettivoProgetto && (

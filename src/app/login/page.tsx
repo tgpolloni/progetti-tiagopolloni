@@ -41,7 +41,7 @@ export default function LoginPage() {
     try {
       await signIn(data.email, data.password);
       router.push('/dashboard');
-    } catch (error: any) {
+    } catch (error: unknown) {
       console.error('Errore di login:', error);
       setError('Credenziali non valide. Riprova.');
     } finally {

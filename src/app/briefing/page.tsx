@@ -325,13 +325,13 @@ export default function PublicBriefingPage() {
               {currentStep === 2 && (
                 <div className="space-y-4">
                   <div>
-                    <label className="block text-sm font-medium text-gray-700 mb-1">
-                      Qual è l'obiettivo principale del progetto? *
+                     <label className="block text-sm font-medium text-gray-700 mb-1">
+                      Qual è l&#39;obiettivo principale del progetto? *
                     </label>
                     <textarea
                       rows={3}
                       className="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500"
-                      placeholder="Descrivi l'obiettivo principale..."
+                       placeholder="Descrivi l&#39;obiettivo principale..."
                       {...register('obiettivoProgetto')}
                     />
                     {errors.obiettivoProgetto && (

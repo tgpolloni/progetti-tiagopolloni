@@ -269,7 +269,7 @@ export default function EmailPage() {
           <div className="flex justify-between items-center">
             <div>
               <h1 className="text-2xl font-bold text-gray-900">Gestione Email</h1>
-              <p className="text-gray-600">Gestisci template e monitora l'invio delle email</p>
+              <p className="text-gray-600">Gestisci template e monitora l&#39;invio delle email</p>
             </div>
             <div className="flex items-center space-x-2">
               <Button 
@@ -749,8 +749,8 @@ function PreviewContent({
       {template && (
         <div className="bg-yellow-50 p-3 rounded-md">
           <p className="text-xs text-yellow-700">
-            <strong>Nota:</strong> Questa è un'anteprima con dati di esempio. 
-            I valori reali verranno sostituiti automaticamente quando l'email viene inviata.
+            <strong>Nota:</strong> Questa è un&#39;anteprima con dati di esempio. 
+            I valori reali verranno sostituiti automaticamente quando l&#39;email viene inviata.
           </p>
         </div>
       )}

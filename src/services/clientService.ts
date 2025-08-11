@@ -25,7 +25,7 @@ export const clientService = {
       if (error) {
         // Se já existe (violação de única), reutiliza o registro existente
         // Código 23505 = unique_violation
-        if ((error as any).code === '23505') {
+        if ((error as { code?: string }).code === '23505') {
           // Tenta localizar por email primeiro, depois por codice fiscale/P.IVA
           const existingByEmail = await this.getClientByEmail(clientData.email).catch(() => null);
           if (existingByEmail?.id) return existingByEmail.id;
@@ -162,7 +162,7 @@ export const clientService = {
   // Atualizar cliente
   async updateClient(id: string, updates: Partial<Omit<Client, 'id' | 'createdAt'>>): Promise<void> {
     try {
-      const updateData: any = {
+      const updateData: Record<string, unknown> = {
         updated_at: new Date().toISOString()
       };
       

@@ -67,7 +67,7 @@ export default function ProjectDetailPage() {
     formState: { errors },
     reset
   } = useForm<ProjectFormData>({
-    resolver: yupResolver(projectSchema) as unknown as any
+    resolver: yupResolver(projectSchema)
   });
 
   useEffect(() => {
