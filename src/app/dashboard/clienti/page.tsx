@@ -149,7 +149,7 @@ export default function ClientsPage() {
           </Card>
 
           {/* Statistiche */}
-          <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
+          <div className="grid grid-cols-1 sm:grid-cols-3 gap-6">
             <Card>
               <CardContent className="pt-6">
                 <div className="flex items-center">

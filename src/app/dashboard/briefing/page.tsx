@@ -148,7 +148,7 @@ export default function BriefingPage() {
       <DashboardLayout>
         <div className="space-y-6">
           {/* Header */}
-          <div className="flex justify-between items-center">
+          <div className="flex flex-col gap-3 sm:flex-row sm:justify-between sm:items-center">
             <div>
               <h1 className="text-2xl font-bold text-gray-900">Briefings</h1>
               <p className="text-gray-600">Gestisci tutti i briefings ricevuti dai clienti</p>
@@ -241,7 +241,7 @@ export default function BriefingPage() {
                         </CardDescription>
                       </div>
                       <div className="flex items-center space-x-2">
-                        {getStatusBadge(briefing.status)}
+                        {getStatusBadge(briefing.status ?? 'pending')}
                         <Button
                           variant="outline"
                           size="sm"
@@ -254,14 +254,14 @@ export default function BriefingPage() {
                     </div>
                   </CardHeader>
                   <CardContent>
-                    <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4 text-sm">
+                    <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4 text-sm">
                       <div className="flex items-center text-gray-600">
                         <Building className="h-4 w-4 mr-2" />
                         <span>{briefing.nomeAzienda || 'N/A'}</span>
                       </div>
                       <div className="flex items-center text-gray-600">
                         <Mail className="h-4 w-4 mr-2" />
-                        <span>{briefing.email}</span>
+                        <span className="truncate max-w-[60vw] sm:max-w-none">{briefing.email}</span>
                       </div>
                       <div className="flex items-center text-gray-600">
                         <Phone className="h-4 w-4 mr-2" />

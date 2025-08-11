@@ -348,7 +348,7 @@ Generato il: ${formatDate(new Date())}
       <DashboardLayout>
         <div className="space-y-6">
           {/* Header */}
-          <div className="flex items-center justify-between">
+          <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-3">
             <div className="flex items-center space-x-4">
               <Button
                 variant="outline"
@@ -493,7 +493,7 @@ Generato il: ${formatDate(new Date())}
                         </p>
                       </div>
                       
-                      <div className="grid grid-cols-2 gap-4 pt-4 border-t">
+                      <div className="grid grid-cols-1 sm:grid-cols-2 gap-4 pt-4 border-t">
                         <div>
                           <h4 className="text-sm font-medium text-gray-700">Creato</h4>
                           <p className="text-gray-900 mt-1">{formatDate(project.createdAt)}</p>
@@ -535,7 +535,7 @@ Generato il: ${formatDate(new Date())}
                         {/* Informazioni Cliente */}
                         <div>
                           <h4 className="font-medium text-gray-900 mb-2">🧑 Informazioni Cliente</h4>
-                          <div className="grid grid-cols-2 gap-4 text-sm">
+                          <div className="grid grid-cols-1 sm:grid-cols-2 gap-4 text-sm">
                             <div>
                               <span className="text-gray-600">Nome:</span>
                               <span className="ml-2 text-gray-900">{briefing.nomeCompleto}</span>
@@ -591,7 +591,7 @@ Generato il: ${formatDate(new Date())}
                         </div>
 
                         {/* Budget e Tempistiche */}
-                        <div className="grid grid-cols-2 gap-4">
+                        <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
                           <div>
                             <h4 className="font-medium text-gray-900 mb-2">💰 Budget</h4>
                             <p className="text-sm text-gray-700">{briefing.budgetStimato || 'Non specificato'}</p>
@@ -601,6 +601,162 @@ Generato il: ${formatDate(new Date())}
                             <h4 className="font-medium text-gray-900 mb-2">📅 Tempistiche</h4>
                             <p className="text-sm text-gray-700">{briefing.scadenzaFinale || 'Non specificata'}</p>
                           </div>
+                        </div>
+
+                        {/* Dettagli aggiuntivi - mostra tutte le risposte disponibili */}
+                        <div className="space-y-6">
+                          {/* Dati aggiuntivi cliente */}
+                          {(briefing.codiceFiscaleOrPIVA || briefing.ruolo) && (
+                            <div>
+                              <h4 className="font-medium text-gray-900 mb-2">👤 Dettagli Cliente</h4>
+                              <div className="grid grid-cols-1 sm:grid-cols-2 gap-4 text-sm">
+                                {briefing.codiceFiscaleOrPIVA && (
+                                  <p><span className="text-gray-600">CF/P.IVA:</span> <span className="ml-2 text-gray-900">{briefing.codiceFiscaleOrPIVA}</span></p>
+                                )}
+                                {briefing.ruolo && (
+                                  <p><span className="text-gray-600">Ruolo:</span> <span className="ml-2 text-gray-900">{briefing.ruolo}</span></p>
+                                )}
+                              </div>
+                            </div>
+                          )}
+
+                          {/* Contesto Progetto */}
+                          {(briefing.giaEsistente || briefing.scadenzaSpecifica) && (
+                            <div>
+                              <h4 className="font-medium text-gray-900 mb-2">📌 Contesto Progetto</h4>
+                              <div className="space-y-1 text-sm">
+                                {briefing.giaEsistente && (
+                                  <p><span className="text-gray-600">Già esistente:</span> <span className="ml-2 text-gray-900">{briefing.giaEsistente}</span></p>
+                                )}
+                                {briefing.scadenzaSpecifica && (
+                                  <p><span className="text-gray-600">Scadenza specifica:</span> <span className="ml-2 text-gray-900">{briefing.scadenzaSpecifica}</span></p>
+                                )}
+                                {briefing.tipoProgettoAltro && (
+                                  <p><span className="text-gray-600">Tipo Progetto (altro):</span> <span className="ml-2 text-gray-900">{briefing.tipoProgettoAltro}</span></p>
+                                )}
+                              </div>
+                            </div>
+                          )}
+
+                          {/* Dettagli Funzionalità extra */}
+                          {(briefing.livelliUtenti || briefing.areeRiservate) && (
+                            <div>
+                              <h4 className="font-medium text-gray-900 mb-2">🔐 Accessi e Sezioni</h4>
+                              <div className="space-y-1 text-sm">
+                                {briefing.livelliUtenti && (
+                                  <p><span className="text-gray-600">Livelli utenti:</span> <span className="ml-2 text-gray-900">{briefing.livelliUtenti}</span></p>
+                                )}
+                                {briefing.areeRiservate && (
+                                  <p><span className="text-gray-600">Aree riservate:</span> <span className="ml-2 text-gray-900">{briefing.areeRiservate}</span></p>
+                                )}
+                              </div>
+                            </div>
+                          )}
+
+                          {/* Design e UX */}
+                          {(briefing.designEsistente || briefing.sitiRiferimento || briefing.paletteColori || typeof briefing.logoReady === 'boolean') && (
+                            <div>
+                              <h4 className="font-medium text-gray-900 mb-2">🎨 Design e UX</h4>
+                              <div className="space-y-1 text-sm">
+                                {briefing.designEsistente && (
+                                  <p><span className="text-gray-600">Design esistente:</span> <span className="ml-2 text-gray-900">{briefing.designEsistente}</span></p>
+                                )}
+                                {briefing.sitiRiferimento && (
+                                  <p><span className="text-gray-600">Siti di riferimento:</span> <span className="ml-2 text-gray-900 whitespace-pre-wrap">{briefing.sitiRiferimento}</span></p>
+                                )}
+                                {briefing.paletteColori && (
+                                  <p><span className="text-gray-600">Palette colori:</span> <span className="ml-2 text-gray-900">{briefing.paletteColori}</span></p>
+                                )}
+                                {typeof briefing.logoReady === 'boolean' && (
+                                  <p><span className="text-gray-600">Logo pronto:</span> <span className="ml-2 text-gray-900">{briefing.logoReady ? 'Sì' : 'No'}</span></p>
+                                )}
+                              </div>
+                            </div>
+                          )}
+
+                          {/* Integrazioni e Tecnologie */}
+                          {(briefing.serviziEsterni || briefing.preferenzeTecniche) && (
+                            <div>
+                              <h4 className="font-medium text-gray-900 mb-2">🔌 Integrazioni e Tecnologie</h4>
+                              <div className="space-y-1 text-sm">
+                                {briefing.serviziEsterni && (
+                                  <p><span className="text-gray-600">Servizi esterni:</span> <span className="ml-2 text-gray-900 whitespace-pre-wrap">{briefing.serviziEsterni}</span></p>
+                                )}
+                                {briefing.preferenzeTecniche && (
+                                  <p><span className="text-gray-600">Preferenze tecniche:</span> <span className="ml-2 text-gray-900 whitespace-pre-wrap">{briefing.preferenzeTecniche}</span></p>
+                                )}
+                              </div>
+                            </div>
+                          )}
+
+                          {/* Contenuti e Dati */}
+                          {(briefing.contenutiPronti || briefing.modalitaInvio || briefing.importazioneAltroSistema) && (
+                            <div>
+                              <h4 className="font-medium text-gray-900 mb-2">🗂️ Contenuti e Dati</h4>
+                              <div className="space-y-1 text-sm">
+                                {briefing.contenutiPronti && (
+                                  <p><span className="text-gray-600">Contenuti pronti:</span> <span className="ml-2 text-gray-900 whitespace-pre-wrap">{briefing.contenutiPronti}</span></p>
+                                )}
+                                {briefing.modalitaInvio && (
+                                  <p><span className="text-gray-600">Modalità invio:</span> <span className="ml-2 text-gray-900">{briefing.modalitaInvio}</span></p>
+                                )}
+                                {briefing.importazioneAltroSistema && (
+                                  <p><span className="text-gray-600">Importazione da altri sistemi:</span> <span className="ml-2 text-gray-900 whitespace-pre-wrap">{briefing.importazioneAltroSistema}</span></p>
+                                )}
+                              </div>
+                            </div>
+                          )}
+
+                          {/* Hosting e Dominio */}
+                          {(typeof briefing.haiDominio === 'boolean' || typeof briefing.haiHosting === 'boolean' || typeof briefing.serveAssistenza === 'boolean' || briefing.tipoSupporto) && (
+                            <div>
+                              <h4 className="font-medium text-gray-900 mb-2">🌐 Hosting e Dominio</h4>
+                              <div className="grid grid-cols-1 sm:grid-cols-2 gap-4 text-sm">
+                                {typeof briefing.haiDominio === 'boolean' && (
+                                  <p><span className="text-gray-600">Hai dominio:</span> <span className="ml-2 text-gray-900">{briefing.haiDominio ? 'Sì' : 'No'}</span></p>
+                                )}
+                                {typeof briefing.haiHosting === 'boolean' && (
+                                  <p><span className="text-gray-600">Hai hosting:</span> <span className="ml-2 text-gray-900">{briefing.haiHosting ? 'Sì' : 'No'}</span></p>
+                                )}
+                                {typeof briefing.serveAssistenza === 'boolean' && (
+                                  <p><span className="text-gray-600">Serve assistenza:</span> <span className="ml-2 text-gray-900">{briefing.serveAssistenza ? 'Sì' : 'No'}</span></p>
+                                )}
+                                {briefing.tipoSupporto && (
+                                  <p><span className="text-gray-600">Tipo di supporto:</span> <span className="ml-2 text-gray-900">{briefing.tipoSupporto}</span></p>
+                                )}
+                              </div>
+                            </div>
+                          )}
+
+                          {/* Dettagli tempistiche extra */}
+                          {(briefing.partiUrgenti || briefing.dataLancio) && (
+                            <div>
+                              <h4 className="font-medium text-gray-900 mb-2">⏱️ Dettagli Tempistiche</h4>
+                              <div className="space-y-1 text-sm">
+                                {briefing.partiUrgenti && (
+                                  <p><span className="text-gray-600">Parti urgenti:</span> <span className="ml-2 text-gray-900 whitespace-pre-wrap">{briefing.partiUrgenti}</span></p>
+                                )}
+                                {briefing.dataLancio && (
+                                  <p><span className="text-gray-600">Data di lancio:</span> <span className="ml-2 text-gray-900">{briefing.dataLancio}</span></p>
+                                )}
+                              </div>
+                            </div>
+                          )}
+
+                          {/* Note Finali */}
+                          {(briefing.informazioniAggiuntive || briefing.restrizioniNormative) && (
+                            <div>
+                              <h4 className="font-medium text-gray-900 mb-2">📝 Note Finali</h4>
+                              <div className="space-y-1 text-sm">
+                                {briefing.informazioniAggiuntive && (
+                                  <p className="whitespace-pre-wrap"><span className="text-gray-600">Informazioni aggiuntive:</span> <span className="ml-2 text-gray-900">{briefing.informazioniAggiuntive}</span></p>
+                                )}
+                                {briefing.restrizioniNormative && (
+                                  <p className="whitespace-pre-wrap"><span className="text-gray-600">Restrizioni normative:</span> <span className="ml-2 text-gray-900">{briefing.restrizioniNormative}</span></p>
+                                )}
+                              </div>
+                            </div>
+                          )}
                         </div>
                       </div>
                     </CardContent>
@@ -704,7 +860,7 @@ Generato il: ${formatDate(new Date())}
                       )}
                       <div>
                         <h4 className="text-sm font-medium text-gray-700">Email</h4>
-                        <p className="text-gray-900">{client.email}</p>
+                          <p className="text-gray-900 break-all">{client.email}</p>
                       </div>
                       <div>
                         <h4 className="text-sm font-medium text-gray-700">Telefono</h4>

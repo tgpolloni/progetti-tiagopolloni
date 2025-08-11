@@ -55,7 +55,7 @@ export default function LoginPage() {
         <Card>
           <CardHeader className="text-center">
             <CardTitle className="text-2xl font-bold text-primary-custom">
-              Gesti-Frella
+              Tiago Polloni - Progetti
             </CardTitle>
             <CardDescription>
               Accedi al pannello di controllo

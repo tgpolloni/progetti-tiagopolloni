@@ -308,7 +308,7 @@ export default function ClientDetailPage() {
                     <div className="space-y-4">
                       <h3 className="text-lg font-medium text-gray-900">Dati Personali</h3>
                       
-                      <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+                      <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
                         <Input
                           label="Nome Completo"
                           placeholder="Mario Rossi"
@@ -336,7 +336,7 @@ export default function ClientDetailPage() {
                     <div className="space-y-4">
                       <h3 className="text-lg font-medium text-gray-900">Contatti</h3>
                       
-                      <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+                      <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
                         <Input
                           label="Email"
                           type="email"

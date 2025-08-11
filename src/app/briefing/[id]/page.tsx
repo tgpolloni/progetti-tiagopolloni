@@ -310,8 +310,8 @@ export default function BriefingPage() {
   }
 
   return (
-    <div className="min-h-screen bg-secondary-light py-8">
-      <div className="max-w-4xl mx-auto px-4">
+    <div className="min-h-screen bg-secondary-light py-6">
+      <div className="max-w-3xl mx-auto px-4">
         <Card>
           <CardHeader className="text-center">
             <CardTitle className="text-2xl font-bold text-primary-custom">
@@ -322,13 +322,13 @@ export default function BriefingPage() {
             </CardDescription>
           </CardHeader>
           <CardContent>
-            <form onSubmit={handleSubmit(onSubmit)} className="space-y-8">
+            <form onSubmit={handleSubmit(onSubmit)} className="space-y-6">
               {/* 1. Informazioni sul Cliente */}
               <div className="space-y-4">
                 <h3 className="text-lg font-semibold text-gray-900 flex items-center">
                   🧑 1. Informazioni sul Cliente
                 </h3>
-                <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+                <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
                   <Input
                     label="Nome completo"
                     placeholder="Mario Rossi"

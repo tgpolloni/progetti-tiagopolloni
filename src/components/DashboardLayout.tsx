@@ -1,6 +1,6 @@
 'use client';
 
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import { useRouter } from 'next/navigation';
 import { useAuth } from '@/hooks/useAuth';
 import { Button } from '@/components/ui/Button';
@@ -48,6 +48,52 @@ export function DashboardLayout({ children }: DashboardLayoutProps) {
     }
   };
 
+  // Auto-logout dopo 3 minuti di inattività (solo in dashboard)
+  useEffect(() => {
+    if (!user) return;
+
+    let inactivityTimer: ReturnType<typeof setTimeout> | undefined;
+
+    const startTimer = () => {
+      if (inactivityTimer) clearTimeout(inactivityTimer);
+      inactivityTimer = setTimeout(() => {
+        // Effettua logout e reindirizza
+        handleLogout();
+      }, 3 * 60 * 1000); // 3 minutos
+    };
+
+    const resetTimer = () => startTimer();
+
+    // Eventi che indicano attività dell'utente
+    const activityEvents: Array<keyof WindowEventMap> = [
+      'mousemove',
+      'keydown',
+      'scroll',
+      'click',
+      'touchstart'
+    ];
+
+    activityEvents.forEach((event) => {
+      window.addEventListener(event, resetTimer, { passive: true });
+    });
+    // Cambiamento di visibilità della pagina
+    const onVisibility = () => {
+      if (document.visibilityState === 'visible') startTimer();
+    };
+    document.addEventListener('visibilitychange', onVisibility);
+
+    // Avvia timer all'ingresso in pagina
+    startTimer();
+
+    return () => {
+      if (inactivityTimer) clearTimeout(inactivityTimer);
+      activityEvents.forEach((event) => {
+        window.removeEventListener(event, resetTimer);
+      });
+      document.removeEventListener('visibilitychange', onVisibility);
+    };
+  }, [user]);
+
   return (
     <div className="flex h-screen bg-gray-100">
       {/* Sidebar per mobile */}
@@ -90,7 +136,7 @@ export function DashboardLayout({ children }: DashboardLayoutProps) {
               <Logo width={136} height={40} className="h-8 w-auto" />
             </div>
             <div className="ml-4 flex items-center md:ml-6">
-              <span className="text-sm text-gray-700 mr-4">
+              <span className="hidden sm:inline text-sm text-gray-700 mr-4 max-w-[40vw] truncate">
                 Benvenuto, {user?.email}
               </span>
               <Button

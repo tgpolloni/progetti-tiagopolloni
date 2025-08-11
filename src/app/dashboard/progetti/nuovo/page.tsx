@@ -281,7 +281,7 @@ export default function NuovoProgettoPage() {
                     </div>
 
                     {/* Date e Budget */}
-                    <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
+                    <div className="grid grid-cols-1 sm:grid-cols-3 gap-4">
                       <div>
                         <label className="block text-sm font-medium text-gray-700 mb-1">Data inizio</label>
                         <input
@@ -453,7 +453,7 @@ export default function NuovoProgettoPage() {
                           </a>
                         </div>
                       </div>
-                      <div className="grid grid-cols-1 md:grid-cols-2 gap-3">
+                      <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
                         <div>
                           <p className="text-xs text-gray-500">Email</p>
                           <div className="flex items-center">
