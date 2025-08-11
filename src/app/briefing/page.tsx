@@ -140,15 +140,7 @@ export default function PublicBriefingPage() {
       }
 
       // Create briefing
-      const briefingData = {
-        ...data,
-        clientId,
-        projectId: selectedProject || null,
-        status: 'nuovo' as const,
-        dataCreazione: new Date().toISOString()
-      };
-
-      await briefingService.createBriefing(briefingData, selectedProject, clientId);
+      await briefingService.createBriefing(data, selectedProject || undefined, clientId);
       setIsSubmitted(true);
     } catch (error) {
       console.error('Errore nell\'invio del briefing:', error);
