@@ -21,10 +21,21 @@ export async function POST(req: NextRequest) {
       if (data && data.length > 0) {
         for (const row of data) {
           if (row.user_id) {
-            await supabaseAdmin.auth.admin.deleteUser(row.user_id).catch(() => undefined);
+            try {
+              await supabaseAdmin.auth.admin.deleteUser(row.user_id);
+            } catch (_) {
+              // ignora eventuali errori di eliminazione utente
+            }
           }
         }
-        await supabaseAdmin.from('temp_users').delete().eq('project_id', projectId).catch(() => undefined);
+        try {
+          await supabaseAdmin
+            .from('temp_users')
+            .delete()
+            .eq('project_id', projectId);
+        } catch (_) {
+          // ignora eventuali errori di eliminazione record
+        }
         return NextResponse.json({ ok: true, deletedBy: 'temp_users' }, { status: 200 });
       }
     } catch (_) {
