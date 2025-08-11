@@ -1,9 +1,9 @@
 import type { NextConfig } from "next";
 
 const nextConfig: NextConfig = {
-  experimental: {
-    // Desabilitar prefetching para evitar ERR_ABORTED
- 
+  trailingSlash: true,
+  images: {
+    unoptimized: true
   },
   // Configurações para resolver problemas de prefetching
   async rewrites() {
