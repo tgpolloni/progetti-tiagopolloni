@@ -102,19 +102,46 @@ npm install
 
 ### 4. Configuração do Ambiente
 
-Renomeia `.env.local` e insere suas credenciais do Supabase:
+#### Desenvolvimento Local
+
+1. Copia o arquivo `.env.example` para `.env.local`:
+```bash
+cp .env.example .env.local
+```
+
+2. Edita `.env.local` e insere suas credenciais do Supabase:
 
 ```env
 # Supabase Configuration
-NEXT_PUBLIC_SUPABASE_URL=your_supabase_url
+NEXT_PUBLIC_SUPABASE_URL=https://your-project-id.supabase.co
 NEXT_PUBLIC_SUPABASE_ANON_KEY=your_supabase_anon_key
+SUPABASE_SERVICE_ROLE_KEY=your_supabase_service_role_key
 
 # Admin Email
 NEXT_PUBLIC_ADMIN_EMAIL=your_admin_email@example.com
 
 # Application URL
 NEXT_PUBLIC_APP_URL=http://localhost:3000
+NEXT_PUBLIC_BASE_URL=http://localhost:3000
 ```
+
+#### Produção
+
+**IMPORTANTE**: Para produção, você deve configurar as variáveis de ambiente diretamente na plataforma de hospedagem:
+
+- **Vercel**: Vá em Project Settings > Environment Variables
+- **Netlify**: Vá em Site Settings > Environment Variables  
+- **Outras plataformas**: Consulte a documentação específica
+
+**Variáveis obrigatórias para produção**:
+- `NEXT_PUBLIC_SUPABASE_URL`
+- `NEXT_PUBLIC_SUPABASE_ANON_KEY`
+- `SUPABASE_SERVICE_ROLE_KEY`
+- `NEXT_PUBLIC_ADMIN_EMAIL`
+- `NEXT_PUBLIC_APP_URL` (URL da sua aplicação em produção)
+- `NEXT_PUBLIC_BASE_URL` (URL base da sua aplicação em produção)
+
+> ⚠️ **Nota**: Os arquivos `.env*` são ignorados pelo Git por segurança. Nunca commite credenciais reais no repositório.
 
 ### 5. Estrutura do Banco de Dados Supabase
 
