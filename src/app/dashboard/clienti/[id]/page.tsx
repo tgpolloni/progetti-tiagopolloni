@@ -11,7 +11,7 @@ import { clientService } from '@/services/clientService';
 import { projectService } from '@/services/projectService';
 import { Client, Project } from '@/types';
 import { formatDate, validateEmail, validateCodiceFiscaleOrPIVA } from '@/lib/utils';
-import { useForm } from 'react-hook-form';
+import { useForm, type Resolver } from 'react-hook-form';
 import { yupResolver } from '@hookform/resolvers/yup';
 import * as yup from 'yup';
 import {
@@ -64,7 +64,7 @@ export default function ClientDetailPage() {
     reset,
     watch
   } = useForm<ClientFormData>({
-    resolver: yupResolver(schema)
+    resolver: yupResolver(schema) as Resolver<ClientFormData>
   });
 
   const watchEmail = watch('email');
@@ -138,8 +138,15 @@ export default function ClientDetailPage() {
           return;
         }
         
-        // Crea nuovo cliente
-        const clientId = await clientService.createClient(data);
+        // Crea nuovo cliente (garantisce tipi richiesti dal servizio)
+        const clientId = await clientService.createClient({
+          nomeCompleto: data.nomeCompleto,
+          nomeAzienda: data.nomeAzienda,
+          codiceFiscaleOrPIVA: data.codiceFiscaleOrPIVA,
+          email: data.email,
+          telefono: data.telefono,
+          ruolo: data.ruolo || ''
+        });
         setSuccess('Cliente creato con successo!');
         
         // Reindirizza alla pagina del cliente

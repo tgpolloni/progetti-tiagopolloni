@@ -18,19 +18,13 @@ import Link from 'next/link';
 
 const schema = yup.object({
   nome: yup.string().required('Nome del progetto richiesto'),
-  descrizione: yup.string(),
+  descrizione: yup.string().optional(),
   clientId: yup.string().required('Cliente richiesto'),
   status: yup.string().oneOf(['In attesa di briefing', 'In corso', 'Pausa', 'Completato']).required('Status richiesto'),
-  internalNotes: yup.string()
+  internalNotes: yup.string().optional()
 });
 
-type ProjectFormData = {
-  nome: string;
-  descrizione?: string;
-  clientId: string;
-  status: Project['status'];
-  internalNotes?: string;
-};
+type ProjectFormData = yup.InferType<typeof schema>;
 
 export default function EditProjectPage() {
   const router = useRouter();
@@ -49,9 +43,7 @@ export default function EditProjectPage() {
     formState: { errors },
     reset,
     setValue
-  } = useForm<ProjectFormData>({
-    resolver: yupResolver(schema)
-  });
+  } = useForm<ProjectFormData>();
 
   useEffect(() => {
     loadData();
@@ -78,11 +70,11 @@ export default function EditProjectPage() {
       
       // Popola il form con i dati del progetto
       reset({
-        nome: projectData.nome_progetto,
+        nome: projectData.nome,
         descrizione: projectData.descrizione || '',
-        clientId: projectData.cliente_id,
-        status: projectData.stato,
-        internalNotes: projectData.note_interne || ''
+        clientId: projectData.clientId,
+        status: projectData.status,
+        internalNotes: projectData.internalNotes || ''
       });
       
     } catch (error) {
@@ -101,12 +93,12 @@ export default function EditProjectPage() {
       setError('');
       
       const updatedProject: Partial<Project> = {
-        nome_progetto: data.nome,
+        nome: data.nome,
         descrizione: data.descrizione,
-        cliente_id: data.clientId,
-        stato: data.status,
-        note_interne: data.internalNotes,
-        updated_at: new Date().toISOString()
+        clientId: data.clientId,
+        status: data.status,
+        internalNotes: data.internalNotes,
+        updatedAt: new Date()
       };
       
       await projectService.updateProject(project.id, updatedProject);
@@ -166,7 +158,7 @@ export default function EditProjectPage() {
             </Link>
             <div>
               <h1 className="text-2xl font-bold text-gray-900">Modifica Progetto</h1>
-              <p className="text-gray-600">{project?.nome_progetto}</p>
+              <p className="text-gray-600">{project?.nome}</p>
             </div>
           </div>
 
@@ -238,7 +230,7 @@ export default function EditProjectPage() {
                         <option value="">Seleziona un cliente</option>
                         {clients.map((client) => (
                           <option key={client.id} value={client.id}>
-                            {client.nome} {client.cognome} - {client.azienda || 'Privato'}
+                            {client.nomeCompleto} - {client.nomeAzienda || 'Privato'}
                           </option>
                         ))}
                       </select>
@@ -321,19 +313,19 @@ export default function EditProjectPage() {
                   <div>
                     <p className="text-sm font-medium text-gray-500">Creato il</p>
                     <p className="text-sm text-gray-900">
-                      {project?.created_at ? new Date(project.created_at).toLocaleDateString('it-IT') : 'N/A'}
+                      {project?.createdAt ? new Date(project.createdAt).toLocaleDateString('it-IT') : 'N/A'}
                     </p>
                   </div>
                   <div>
                     <p className="text-sm font-medium text-gray-500">Ultima modifica</p>
                     <p className="text-sm text-gray-900">
-                      {project?.updated_at ? new Date(project.updated_at).toLocaleDateString('it-IT') : 'N/A'}
+                      {project?.updatedAt ? new Date(project.updatedAt).toLocaleDateString('it-IT') : 'N/A'}
                     </p>
                   </div>
                   <div>
                     <p className="text-sm font-medium text-gray-500">Briefing completato</p>
                     <p className="text-sm text-gray-900">
-                      {project?.briefing_completed ? 'Sì' : 'No'}
+                      {project?.briefingCompleted ? 'Sì' : 'No'}
                     </p>
                   </div>
                 </CardContent>

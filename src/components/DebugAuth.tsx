@@ -13,7 +13,7 @@ export function DebugAuth() {
 
   const testDatabaseConnection = async () => {
     setIsTestingDB(true);
-    const results: Record<string, unknown> = {
+    const results: Record<string, any> = {
       timestamp: new Date().toISOString(),
       user: user ? {
         id: user.id,

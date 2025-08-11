@@ -33,17 +33,12 @@ import * as yup from 'yup';
 
 const projectSchema = yup.object({
   nome: yup.string().required('Nome richiesto'),
-  descrizione: yup.string(),
-  status: yup.string().required('Status richiesto'),
-  internalNotes: yup.string()
+  descrizione: yup.string().optional(),
+  status: yup.string().oneOf(['In attesa di briefing', 'In corso', 'Pausa', 'Completato']).required('Status richiesto'),
+  internalNotes: yup.string().optional()
 });
 
-type ProjectFormData = {
-  nome: string;
-  descrizione: string | undefined;
-  status: Project['status'];
-  internalNotes: string | undefined;
-};
+type ProjectFormData = yup.InferType<typeof projectSchema>;
 
 export default function ProjectDetailPage() {
   const params = useParams();
@@ -66,9 +61,7 @@ export default function ProjectDetailPage() {
     handleSubmit,
     formState: { errors },
     reset
-  } = useForm<ProjectFormData>({
-    resolver: yupResolver(projectSchema)
-  });
+  } = useForm<ProjectFormData>();
 
   useEffect(() => {
     loadProjectData();

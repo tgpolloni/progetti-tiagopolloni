@@ -19,28 +19,20 @@ import { copyToClipboard } from '@/lib/utils';
 
 const schema = yup.object({
   nome: yup.string().required('Nome del progetto richiesto'),
-  descrizione: yup.string(),
+  descrizione: yup.string().optional(),
   clientId: yup.string().required('Cliente richiesto'),
   status: yup.string().oneOf(['In attesa di briefing', 'In corso', 'Pausa', 'Completato']).required('Status richiesto'),
-  internalNotes: yup.string(),
-  dataInizio: yup.string().nullable(),
-  dataFinePrevista: yup.string().nullable(),
+  internalNotes: yup.string().optional(),
+  dataInizio: yup.string().nullable().optional(),
+  dataFinePrevista: yup.string().nullable().optional(),
   budget: yup
     .number()
     .typeError('Budget deve essere numerico')
     .nullable()
+    .optional()
 });
 
-type ProjectFormData = {
-  nome: string;
-  descrizione?: string;
-  clientId: string;
-  status: Project['status'];
-  internalNotes?: string;
-  dataInizio?: string | null;
-  dataFinePrevista?: string | null;
-  budget?: number | null;
-};
+type ProjectFormData = yup.InferType<typeof schema>;
 
 export default function NuovoProgettoPage() {
   const [clients, setClients] = useState<Client[]>([]);
@@ -62,7 +54,6 @@ export default function NuovoProgettoPage() {
     setValue,
     watch
   } = useForm<ProjectFormData>({
-    resolver: yupResolver(schema),
     defaultValues: {
       status: 'In attesa di briefing'
     }
@@ -73,16 +64,7 @@ export default function NuovoProgettoPage() {
     handleSubmit: handleSubmitClient,
     formState: { errors: clientErrors },
     reset: resetClient
-  } = useForm<Omit<Client, 'id' | 'createdAt' | 'updatedAt'>>({
-    resolver: yupResolver(yup.object({
-      nomeCompleto: yup.string().required('Nome completo richiesto'),
-      nomeAzienda: yup.string(),
-      codiceFiscaleOrPIVA: yup.string().required('Codice fiscale o P.IVA richiesto'),
-      email: yup.string().email('Email non valida').required('Email richiesta'),
-      telefono: yup.string().required('Telefono richiesto'),
-      ruolo: yup.string().required('Ruolo richiesto')
-    }))
-  });
+  } = useForm<Omit<Client, 'id' | 'createdAt' | 'updatedAt'>>();
 
   useEffect(() => {
     loadClients();
@@ -106,6 +88,9 @@ export default function NuovoProgettoPage() {
       
       const projectData = {
         ...data,
+        dataInizio: data.dataInizio ? new Date(data.dataInizio) : undefined,
+        dataFinePrevista: data.dataFinePrevista ? new Date(data.dataFinePrevista) : undefined,
+        budget: data.budget ?? undefined,
         briefingCompleted: false,
         files: []
       };

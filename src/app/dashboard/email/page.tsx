@@ -603,11 +603,18 @@ function TemplateForm({
   onSave: (data: Partial<EmailTemplate>) => void;
   onCancel: () => void;
 }) {
-  const [formData, setFormData] = useState({
+  type TemplateFormState = {
+    nome: string;
+    oggetto: string;
+    corpo: string;
+    tipo: EmailTemplate['tipo'];
+  };
+
+  const [formData, setFormData] = useState<TemplateFormState>({
     nome: template?.nome || '',
     oggetto: template?.oggetto || '',
     corpo: template?.corpo || '',
-    tipo: template?.tipo || 'personalizzato'
+    tipo: (template?.tipo ?? 'personalizzato') as EmailTemplate['tipo']
   });
 
   const handleSubmit = (e: React.FormEvent) => {
@@ -647,7 +654,7 @@ function TemplateForm({
         </label>
         <select
           value={formData.tipo}
-          onChange={(e) => setFormData(prev => ({ ...prev, tipo: e.target.value }))}
+          onChange={(e) => setFormData(prev => ({ ...prev, tipo: e.target.value as EmailTemplate['tipo'] }))}
           className="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-primary focus:border-transparent"
         >
           <option value="personalizzato">Personalizzato</option>
