@@ -101,7 +101,7 @@ export default function BriefingPage() {
     watch,
     setValue
   } = useForm<BriefingFormData>({
-    resolver: yupResolver<BriefingFormData>(schema as yup.AnyObjectSchema),
+    resolver: yupResolver(schema),
     defaultValues: {
       piattaforme: [],
       logoReady: false,
