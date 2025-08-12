@@ -6,7 +6,7 @@ import { AuthProvider } from "@/hooks/useAuth";
 const inter = Inter({ subsets: ["latin"] });
 
 export const metadata: Metadata = {
-  title: "Gesti-Frella - Gestione Progetti Freelancer",
+  title: "Progetti - Gestione Progetti Freelancer",
   description: "Sistema di gestione progetti per freelancer - Organizza i tuoi progetti dal contatto iniziale alla consegna finale",
 };
 
